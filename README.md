@@ -85,4 +85,3 @@ Key data points used:
 ---
 
 *Built for enterprise training use.*
-# ADFR-Project

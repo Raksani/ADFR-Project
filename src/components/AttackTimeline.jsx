@@ -89,30 +89,32 @@ export default function AttackTimeline() {
         </p>
 
         {/* Day Grid */}
-        <div className="timeline-days">
-          {DAYS.map((day, i) => (
-            <div
-              key={day.day}
-              className={`day-cell ${day.state} ${selected === i ? 'active' : ''}`}
-              style={{ '--day-accent': STATE_COLORS[day.state] }}
-              onClick={() => setSelected(i)}
-              title={`Day ${day.day}`}
-            >
-              {day.marker === 'traditional' && (
-                <div className="day-marker" style={{ background: 'var(--warning)', top: '-10px' }}>
-                  Traditional Backup
-                </div>
-              )}
-              {day.marker === 'semperis' && (
-                <div className="day-marker" style={{ background: 'var(--semperis)', color: '#000', top: '-10px' }}>
-                  ADFR Last Good
-                </div>
-              )}
-              <div className="day-label">Day {day.day}</div>
-              <div className="day-icon">{day.icon}</div>
-              <div className="day-status">{day.status}</div>
-            </div>
-          ))}
+        <div style={{ paddingTop: 28 }}>
+          <div className="timeline-days" style={{ overflow: 'visible' }}>
+            {DAYS.map((day, i) => (
+              <div
+                key={day.day}
+                className={`day-cell ${day.state} ${selected === i ? 'active' : ''}`}
+                style={{ '--day-accent': STATE_COLORS[day.state] }}
+                onClick={() => setSelected(i)}
+                title={`Day ${day.day}`}
+              >
+                {day.marker === 'traditional' && (
+                  <div className="day-marker" style={{ background: 'var(--warning)', color: '#000', top: '-26px' }}>
+                    Traditional Backup
+                  </div>
+                )}
+                {day.marker === 'semperis' && (
+                  <div className="day-marker" style={{ background: 'var(--semperis)', color: '#000', top: '-26px' }}>
+                    ADFR Last Good
+                  </div>
+                )}
+                <div className="day-label">Day {day.day}</div>
+                <div className="day-icon">{day.icon}</div>
+                <div className="day-status">{day.status}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Info Panel */}

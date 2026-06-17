@@ -21,29 +21,19 @@ const TRAD_RESULT = `⚠ Restoring to Day 3 using traditional backup:
 • Backup size: 37+ GB — slow restore, hours of downtime
 • Every user must reset passwords manually; groups, OUs, GPOs re-verified from scratch`;
 
-const ADFR_RESULT = `✅ Restoring AD with Semperis ADFR to Day 8:
-
-• Only AD objects are restored — no OS, no malware pathways
-• Recovery is hardware-independent: restore to any VM or physical server
-• Backup size: 5.8 GB — fast, frequent backups improve RPO dramatically
-• SYSVOL is quarantined separately; malware cannot piggyback on AD restore
-• Fully automated forest recovery with just a few clicks
-• Only Days 4–8 legitimate operations may need replay (vs. 7 full days with traditional)`;
-
 export default function RecoveryComparison() {
   const [tradResult, setTradResult] = useState(false);
-  const [adfrResult, setAdfrResult] = useState(false);
 
   return (
     <>
       <hr className="section-sep" />
       <section id="recovery">
         <div className="section">
-          <div className="section-tag">Step 2 — Recovery</div>
+          <div className="section-tag">Step 04 — Recovery</div>
           <h2 className="section-title">What Gets Restored? What Gets Lost?</h2>
           <p className="section-desc">
-            On Day 10 the ransomware hits. It's time to recover. Click the restore button on each
-            panel to see what each approach actually recovers — and what it doesn't.
+            On Day 10 the ransomware hits. It's time to recover. See what each approach
+            actually recovers — and what it doesn't.
           </p>
 
           <div className="recovery-grid">
@@ -98,7 +88,7 @@ export default function RecoveryComparison() {
               </div>
             </div>
 
-            {/* Semperis Card */}
+            {/* Semperis Card — summary only, result moved below */}
             <div className="recovery-card adfr">
               <div className="recovery-card-header">
                 <span className="icon">🛡️</span>
@@ -136,25 +126,54 @@ export default function RecoveryComparison() {
                   <span className="rs-label">Backup size</span>
                   <span className="rs-value good">5.8 GB</span>
                 </div>
-                <button className="restore-btn adfr" onClick={() => setAdfrResult(v => !v)}>
-                  {adfrResult ? '▲ Hide Result' : '▶ Simulate: Restore with Semperis ADFR'}
-                </button>
-                {adfrResult && (
-                  <div className="restore-result adfr">
-                    {ADFR_RESULT.split('\n').map((line, i) => (
-                      <div key={i} style={{ marginBottom: line === '' ? 8 : 2 }}>{line}</div>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           </div>
 
-          {/* Key insight callout */}
+          {/* ADFR result — full-width rectangle below the table */}
           <div style={{
-            marginTop: 32, padding: '20px 28px',
-            background: 'linear-gradient(135deg, rgba(0,207,255,0.07), rgba(61,233,122,0.05))',
-            border: '1px solid rgba(0,207,255,0.25)', borderRadius: 'var(--r)',
+            marginTop: 28,
+            padding: '28px 36px',
+            background: 'linear-gradient(135deg, rgba(0,207,255,0.08) 0%, rgba(61,233,122,0.06) 100%)',
+            border: '2px solid rgba(0,207,255,0.4)',
+            borderRadius: 'var(--r)',
+            boxShadow: '0 0 32px rgba(0,207,255,0.1)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+              <span style={{ fontSize: '1.8rem' }}>🛡️</span>
+              <div style={{ fontFamily: 'var(--ff-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--semperis)' }}>
+                With Semperis ADFR — AD-only restore to Day 8, most recent clean state
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { icon: '✅', text: 'Only AD objects are restored — no OS, no malware pathways', color: 'var(--safe)' },
+                { icon: '🔄', text: 'Recovery is hardware-independent: restore to any VM or physical server', color: 'var(--semperis)' },
+                { icon: '⚡', text: 'Backup size: 5.8 GB — fast, frequent backups improve RPO dramatically', color: 'var(--semperis)' },
+                { icon: '🔒', text: 'SYSVOL is quarantined separately; malware cannot piggyback on AD restore', color: 'var(--safe)' },
+                { icon: '🤖', text: 'Fully automated forest recovery with just a few clicks', color: 'var(--safe)' },
+                { icon: '📉', text: 'Dramatically fewer operations to replay vs. 7 full days with traditional backup', color: 'var(--semperis)' },
+              ].map((item, i) => (
+                <div key={i} style={{
+                  display: 'flex', gap: 14, alignItems: 'center',
+                  padding: '14px 20px',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${item.color}22`,
+                  borderLeft: `3px solid ${item.color}`,
+                  borderRadius: 'var(--r-sm)',
+                }}>
+                  <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{item.icon}</span>
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text)', lineHeight: 1.5 }}>{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Key insight */}
+          <div style={{
+            marginTop: 20, padding: '18px 28px',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(0,207,255,0.2)', borderRadius: 'var(--r)',
           }}>
             <span style={{ fontFamily: 'var(--ff-display)', fontSize: '0.85rem', fontWeight: 700, color: 'var(--semperis)' }}>
               💡 Key Insight:
@@ -162,7 +181,6 @@ export default function RecoveryComparison() {
             <span style={{ fontSize: '0.9rem', color: 'var(--text-dim)', marginLeft: 12 }}>
               Traditional backups include the Windows OS — which <strong style={{ color: 'var(--text)' }}>may already contain malware</strong>.
               Semperis ADFR backs up <em>only the Active Directory service</em> (DIT file), completely decoupled from the OS.
-              The slogan: <strong style={{ color: 'var(--semperis)' }}>"It's about the service, not the server."</strong>
             </span>
           </div>
         </div>

@@ -82,7 +82,7 @@ export default function ADChangesFlood() {
       <hr className="section-sep" />
       <section id="changes">
         <div className="section">
-          <div className="section-tag">Step 3 — The Hidden Cost</div>
+          <div className="section-tag">Step 3 — Permanently Lost</div>
           <h2 className="section-title">
             What Your 1,000+ Users Are Doing During Those{' '}
             <span style={{ color: 'var(--danger)' }}>7 Lost Days</span>
